@@ -8,6 +8,13 @@ var TodoActions = {
     });
   },
 
+  updateTodo: function(todo) {
+    AppDispatcher.dispatch({
+      type: 'update_todo',
+      payload: todo
+    });
+  },
+
   removeTodo: function(todo) {
     AppDispatcher.dispatch({
       type: 'remove_todo',

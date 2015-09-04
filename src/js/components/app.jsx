@@ -1,6 +1,7 @@
 var React = require('react');
 var TodoActions = require('../actions/todo_actions');
 var TodoStore = require('../stores/todo_store');
+var TodoList = require('./todo_list.jsx');
 
 function getTodoItem(todo) {
   return <li>{todo.description}</li>;
@@ -24,7 +25,7 @@ var App = React.createClass({
   },
 
   onAddButtonClicked: function() {
-    TodoActions.createTodo({description: 'test todo'});
+    TodoActions.createTodo({description: 'test todo', done: false});
   },
 
   render: function() {
@@ -32,9 +33,7 @@ var App = React.createClass({
       <div>
         <h1>Todos</h1>
         <button onClick={this.onAddButtonClicked}>Add Todo</button>
-        <ul>
-          {this.state.todos.map(getTodoItem)}
-        </ul>
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }

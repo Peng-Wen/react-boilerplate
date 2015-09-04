@@ -39,6 +39,14 @@ AppDispatcher.register(function(action) {
       _todos.push(todo);
       TodoStore.emitChange();
       break;
+    case 'update_todo':
+      todo = action.payload;
+      var oldTodo = _.find(_todos, {id: todo.id});
+      if (oldTodo) {
+        _.assign(oldTodo, todo);
+        TodoStore.emitChange();
+      }
+      break;
     case 'remove_todo':
       todo = action.payload || {};
       _.remove(_todos, {id: todo.id});
