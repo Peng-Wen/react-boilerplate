@@ -3,10 +3,6 @@ var TodoActions = require('../actions/todo_actions');
 var TodoStore = require('../stores/todo_store');
 var TodoList = require('./todo_list.jsx');
 
-function getTodoItem(todo) {
-  return <li>{todo.description}</li>;
-}
-
 var App = React.createClass({
   getInitialState: function() {
     return {todos: []};

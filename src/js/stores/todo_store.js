@@ -33,25 +33,25 @@ AppDispatcher.register(function(action) {
   var todo;
 
   switch(action.type) {
-    case 'create_todo':
-      todo = action.payload;
-      todo.id = idGenerator();
-      _todos.push(todo);
+  case 'create_todo':
+    todo = action.payload;
+    todo.id = idGenerator();
+    _todos.push(todo);
+    TodoStore.emitChange();
+    break;
+  case 'update_todo':
+    todo = action.payload;
+    var oldTodo = _.find(_todos, {id: todo.id});
+    if (oldTodo) {
+      _.assign(oldTodo, todo);
       TodoStore.emitChange();
-      break;
-    case 'update_todo':
-      todo = action.payload;
-      var oldTodo = _.find(_todos, {id: todo.id});
-      if (oldTodo) {
-        _.assign(oldTodo, todo);
-        TodoStore.emitChange();
-      }
-      break;
-    case 'remove_todo':
-      todo = action.payload || {};
-      _.remove(_todos, {id: todo.id});
-      TodoStore.emitChange();
-      break;
+    }
+    break;
+  case 'remove_todo':
+    todo = action.payload || {};
+    _.remove(_todos, {id: todo.id});
+    TodoStore.emitChange();
+    break;
   }
 });
 
