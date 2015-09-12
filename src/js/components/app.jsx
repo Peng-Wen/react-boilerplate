@@ -1,6 +1,6 @@
 var React = require('react');
-var TodoActions = require('../actions/todo_actions');
 var TodoStore = require('../stores/todo_store');
+var TodoInput = require('./todo_input.jsx');
 var TodoList = require('./todo_list.jsx');
 
 var App = React.createClass({
@@ -20,15 +20,11 @@ var App = React.createClass({
     this.setState({todos: TodoStore.getAllTodos()});
   },
 
-  onAddButtonClicked: function() {
-    TodoActions.createTodo({description: 'test todo', done: false});
-  },
-
   render: function() {
     return (
       <div>
         <h1>Todos</h1>
-        <button onClick={this.onAddButtonClicked}>Add Todo</button>
+        <TodoInput />
         <TodoList todos={this.state.todos} />
       </div>
     );

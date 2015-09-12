@@ -7,6 +7,20 @@
   }
 }
 
+.todo-input {
+  input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: solid 1px #dcdcdc;
+    transition: box-shadow 0.3s, border 0.3s;
+  }
+
+  input[type="text"]:focus {
+    border: solid 1px #707070;
+    box-shadow: 0 0 5px 1px #969696;
+  }
+}
+
 .todo-list {
   list-style-type: none;
   .todo-item--done {
