@@ -1,5 +1,7 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
+var mocha = require('gulp-mocha');
 
 gulp.task('lint', function() {
   return gulp.src(['src/js/**/*.js', 'src/js/**/*.jsx'])
@@ -12,4 +14,9 @@ gulp.task('lint', function() {
       // To have the process exit with an error code (1) on 
       // lint error, return the stream and pipe to failOnError last. 
       .pipe(eslint.failOnError());
+});
+
+gulp.task('test', function() {
+  return gulp.src('src/test/js/**/*.js')
+      .pipe(mocha({grep: gutil.env.grep ? gutil.env.grep : ''}));
 });
