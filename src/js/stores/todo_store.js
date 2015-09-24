@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
 var AppDispatcher = require('../dispatcher/app_dispatcher');
+var TodoConstants = require('../constants/todo_constants');
 
 var CHANGE_EVENT = 'change';
 var _todos = [];
@@ -26,33 +27,42 @@ var TodoStore = _.assign({}, EventEmitter.prototype, {
 
   getAllTodos: function() {
     return _.cloneDeep(_todos);
-  }
-});
+  },
 
-AppDispatcher.register(function(action) {
-  var todo;
+  dispatcherCallback: function(action) {
+    var todo;
 
-  switch(action.type) {
-  case 'create_todo':
-    todo = action.payload;
-    todo.id = idGenerator();
-    _todos.push(todo);
-    TodoStore.emitChange();
-    break;
-  case 'update_todo':
-    todo = action.payload;
-    var oldTodo = _.find(_todos, {id: todo.id});
-    if (oldTodo) {
-      _.assign(oldTodo, todo);
+    switch (action.type) {
+    case TodoConstants.TODO_CREATE:
+      todo = action.payload;
+      todo.id = idGenerator();
+      _todos.push(todo);
       TodoStore.emitChange();
+      break;
+    case TodoConstants.TODO_UPDATE:
+      todo = action.payload;
+      var oldTodo = _.find(_todos, {id: todo.id});
+      if (oldTodo) {
+        _.assign(oldTodo, todo);
+        TodoStore.emitChange();
+      }
+      break;
+    case TodoConstants.TODO_REMOVE:
+      todo = action.payload || {};
+      _.remove(_todos, {id: todo.id});
+      TodoStore.emitChange();
+      break;
+    default:
+      // no op
     }
-    break;
-  case 'remove_todo':
-    todo = action.payload || {};
-    _.remove(_todos, {id: todo.id});
-    TodoStore.emitChange();
-    break;
+  },
+
+  reset: function() {
+    _id = 1;
+    _todos = [];
   }
 });
+
+AppDispatcher.register(TodoStore.dispatcherCallback);
 
 module.exports = TodoStore;
